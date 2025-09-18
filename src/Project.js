@@ -4,7 +4,7 @@ import { Todo } from './Todo';
 class Project {
     constructor(name) {
         this.name = name;
-        this.id = Date.now();
+        this.id = crypto.randomUUID();
         this.todos = [];
     }
 
