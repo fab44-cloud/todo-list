@@ -1,12 +1,20 @@
 // Controller (application entry point)
 
-class Todo {
-    constructor(title, description, dueDate, priority, notes, checklist) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.notes = notes;
-        this.checklist = checklist;
-    }
+import * as UI from './ui';
+import * as ProjectManager from './ProjectManager';
+
+let activeProjectId = null;
+
+function renderAll() {
+    const projects = ProjectManager.getProjects();
+    UI.renderProjects(projects, activeProjectId);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // On page load, set the first project as active and render everything
+    const initialProject = ProjectManager.getProjects();
+    if (initialProject.length > 0) {
+        activeProjectId = initialProject[0].id
+    }
+    renderAll();
+});
