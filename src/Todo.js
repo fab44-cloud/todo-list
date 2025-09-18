@@ -9,7 +9,7 @@ class Todo {
         notes = '',
         checklist = []
     ) {
-        this.id = Date.now() // Unique ID for each todo
+        this.id = crypto.randomUUID() // Unique ID for each todo
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
