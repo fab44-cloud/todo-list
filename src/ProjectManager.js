@@ -47,3 +47,29 @@ const addTodoToProject = (projectId, todo) => {
         console.error('Project not found');
     }
 };
+
+// Function to move a todo from one project to another
+const moveTodo = (todoId, fromProjectId, toProjectId) => {
+    const fromProject = getProjectById(fromProjectId);
+    const toProject = getProjectById(toProjectId);
+    if (fromProject && toProject) {
+        const todoToMove = fromProject.getTodos().find(todo => todo.id === todoId);
+        if (todoToMove) {
+            fromProject.removeTodo(todoId);
+            toProject.addTodo(todoToMove);
+            return true;
+        }
+    }
+    return false;
+};
+
+createDefaultProject();
+
+export {
+    getProjects,
+    getProjectById,
+    addProject,
+    removeProject,
+    addTodoToProject,
+    moveTodo
+};
