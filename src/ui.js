@@ -1,6 +1,6 @@
 // Presentation layer (DOM manipulation)
 import { createDefaultProject, getProjects, addProject} from './ProjectManager';
-import { Todo } from './Todo'
+import  Todo  from './Todo'
 
 const projectListElement = document.getElementById('project-list');
 const todoListElement = document.getElementById('todo-list');
