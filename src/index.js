@@ -7,14 +7,23 @@ let activeProjectId = null;
 
 function renderAll() {
     const projects = ProjectManager.getProjects();
+    const activeProject = projects.find(project => project.id === activeProjectId);
     UI.renderProjects(projects, activeProjectId);
+    
+    // If an active project exists, render its todos. Otherwise, display an empty state.
+    if (activeProject) {
+        UI.renderTodos(activeProject.todos, activeProject.name);
+    } else {
+        UI.renderTodos([], "No Project Selected");
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     // On page load, set the first project as active and render everything
-    const initialProject = ProjectManager.getProjects();
-    if (initialProject.length > 0) {
-        activeProjectId = initialProject[0].id
+    const initialProjects = ProjectManager.getProjects();
+    if (initialProjects.length > 0) {
+        activeProjectId = initialProjects[0].id
     }
     renderAll();
 });
+
