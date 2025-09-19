@@ -1,4 +1,5 @@
-// Controller (application entry point)
+// The brain or controller (application entry point) 
+// Manages data, decides when to update the display and defines what should happen when a user interacts with the page.
 
 import * as UI from './ui';
 import * as ProjectManager from './ProjectManager';
@@ -16,6 +17,16 @@ function renderAll() {
     } else {
         UI.renderTodos([], "No Project Selected");
     }
+}
+
+// Define event handlers
+function onAddProject(projectName) {
+    ProjectManager.addProject(projectName);
+    const newProjects = ProjectManager.getProjects();
+    if (newProjects.length > 0) {
+        activeProjectId = newProjects[newProjects.length-1].id;
+    }
+    renderAll();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
