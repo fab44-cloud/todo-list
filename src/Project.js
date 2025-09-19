@@ -1,5 +1,5 @@
 // Data model
-import { Todo } from './Todo';
+import Todo from './Todo';
 
 class Project {
     constructor(name) {
