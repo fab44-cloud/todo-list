@@ -20,10 +20,15 @@ function renderAll() {
 
 document.addEventListener('DOMContentLoaded', () => {
     // On page load, set the first project as active and render everything
-    const initialProjects = ProjectManager.getProjects();
-    if (initialProjects.length > 0) {
-        activeProjectId = initialProjects[0].id
+    let initialProjects = ProjectManager.getProjects();
+
+    if (initialProjects.length === 0) {
+        // Create a default project if none exist
+        ProjectManager.addProject('Default Project');
+        initialProjects = ProjectManager.getProjects();
+
+        activeProjectId = initialProjects[0].id;
+        renderAll();
     }
-    renderAll();
 });
 
