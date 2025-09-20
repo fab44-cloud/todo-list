@@ -1,9 +1,8 @@
 // Presentation layer (DOM manipulation)
-import { createDefaultProject, getProjects, addProject} from './ProjectManager';
-import  Todo  from './Todo'
 
 const projectListElement = document.getElementById('project-list');
 const todoListElement = document.getElementById('todo-list');
+const currentProjectTitleElement = document.getElementById('current-project-title');
 
 // View all projects
 export function renderProjects(projects, activeProjectId){
@@ -24,15 +23,19 @@ export function renderProjects(projects, activeProjectId){
 
 export function renderTodos(todos, projectName) {
     todoListElement.innerHTML = "";
-    const currentHeading = document.getElementById('current-project-title');
-    currentHeading.textContent = projectName;
+    currentProjectTitleElement.textContent = projectName;
+    
     if (todos.length === 0) {
-        console.log("No todos yet.");
+        const noTodosMessage = document.createElement('p');
+        noTodosMessage.textContent = "No todos yet. Add one!"
+        todoListElement.appendChild(noTodosMessage);
+        return;
     }
+
     todos.forEach(todo => {
         const todoItem = document.createElement('div');
         todoItem.dataset.todoId = todo.id;
-        todoItem.classList.add('todo-item', `priority-${todo.prority}`);
+        todoItem.classList.add('todo-item', `priority-${todo.priority}`);
         todoItem.innerHTML =
         `<div class="todo-info">
             <h3>${todo.title}</h3>
