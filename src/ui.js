@@ -102,4 +102,30 @@ export function setupEventListeners({
             onEditTodo(todoId);
         }
     });
+
+    // Handle form submission inside the modal
+    todoEditForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const form = e.target;
+        const todoData = {
+            id: form.dataset.todoId,
+            title: form.querySelector('#todo-title').value,
+            description: form.querySelector('#todo-description').value,
+            dueDate: form.querySelector('#todo-duedate').value,
+            priority: form.querySelector('#todo-priority').value, 
+        };
+        onSaveTodo(todoData);
+    });
+
+    // Close modal functionality
+    const closeModalBtn = todoModal.querySelector('.close-btn');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => hideTodoModal());
+    }
+
+    window.addEventListener('click', e => {
+        if (e.target === todoModal) {
+            hideTodoModal();
+        }
+    });
 }
