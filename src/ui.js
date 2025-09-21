@@ -3,6 +3,15 @@
 const projectListElement = document.getElementById('project-list');
 const todoListElement = document.getElementById('todo-list');
 const currentProjectTitleElement = document.getElementById('current-project-title');
+const addTodoBtn = document.getElementById('add-todo-btn');
+const newTodoInput = document.getElementById('new-todo-input');
+const addProjectBtn = document.getElementById('add-project-btn');
+const newProjectInput = document.getElementById('new-project-input');
+
+// Modals
+const todoModal = document.getElementById('todo-modal');
+const todoEditForm = document.getElementById('todo-edit-form');
+
 
 // View all projects
 export function renderProjects(projects, activeProjectId){
@@ -45,5 +54,52 @@ export function renderTodos(todos, projectName) {
             <button class="delete-btn">&times;</button>
         </div>`;
         todoListElement.appendChild(todoItem);
+    });
+}
+
+export function setupEventListeners({
+    onAddProject,
+    onAddTodo,
+    onSelectProject,
+    onEditTodo,
+    onDeleteTodo,
+    onSaveTodo
+}) {
+    // Add Project button listener
+    addProjectBtn.addEventListener('click', () => {
+        const name = newProjectInput.value.trim();
+        if (name) {
+            onAddProject(name);
+            newProjectInput.value = '';
+        }
+    });
+
+    // Select Project listener (event delegation on parent <ul>)
+    projectListElement.addEventListener('click', e => {
+        const li = e.target.closest('li');
+        if (li) {
+            onSelectProject(li.dataset.projectId);
+        }
+    });
+
+    addTodoBtn.addEventListener('click', () => {
+        const title = newTodoInput.value.trim();
+        if (title) {
+            onAddTodo(title);
+            newTodoInput.value = '';
+        }
+    });
+
+    todoListElement.addEventListener('click', e => {
+        const todoItem = e.target.closest('.todo-item');
+        if (!todoItem) return;
+
+        const todoId = todoItem.dataset.todoId;
+
+        if (e.target.classList.contains('delete-btn')) {
+            onDeleteTodo(todoId);
+        } else if (e.target.closest('todo-info')) {
+            onEditTodo(todoId);
+        }
     });
 }
