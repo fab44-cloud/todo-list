@@ -57,6 +57,29 @@ export function renderTodos(todos, projectName) {
     });
 }
 
+// Function to populate and show the modal
+export function showTodoModal(todo) {
+    if(!todoModal) return;
+
+    // Populate the form with todo data
+    if (todo) {
+        todoEditForm.dataset.todoId = todo.id;
+        todoEditForm.querySelector('#todo-title').value = todo.title;
+        todoEditForm.querySelector('#todo-description').value = todo.description;
+        todoEditForm.querySelector('#todo-duedate').value = todo.dueDate;
+        todoEditForm.querySelector('#todo-priority').value = todo.priority;
+    } else {
+        todoEditForm.dataset.todoId = '';
+        todoEditForm.reset();
+    }
+
+    todoModal.classList.remove('hidden');
+}
+
+export function hideTodoModal() {
+    todoModal.classList.add('hidden');
+}
+
 export function setupEventListeners({
     onAddProject,
     onAddTodo,
