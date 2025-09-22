@@ -3,28 +3,35 @@
 
 import * as UI from './ui';
 import * as ProjectManager from './ProjectManager';
+import  Todo  from './Todo';
 
 let activeProjectId = null;
 
 function renderAll() {
     const projects = ProjectManager.getProjects();
     const activeProject = projects.find(project => project.id === activeProjectId);
+
     UI.renderProjects(projects, activeProjectId);
     
     // If an active project exists, render its todos. Otherwise, display an empty state.
     if (activeProject) {
         UI.renderTodos(activeProject.todos, activeProject.name);
     } else {
-        UI.renderTodos([], "No Project Selected");
+        if (projects.length > 0) {
+            activeProjectId = projects[0].id;
+            renderAll();
+        } else {
+            UI.renderTodos([], "No Project Found"); 
+        }
     }
 }
 
 // Define event handlers
 function onAddProject(projectName) {
     ProjectManager.addProject(projectName);
-    const newProjects = ProjectManager.getProjects();
-    if (newProjects.length > 0) {
-        activeProjectId = newProjects[newProjects.length-1].id;
+    const projects = ProjectManager.getProjects();
+    if (projects.length > 0) {
+        activeProjectId = projects[projects.length-1].id;
     }
     renderAll();
 }
@@ -38,19 +45,23 @@ function onAddTodo(todoTitle) {
     if (!activeProjectId) {
         return 'Please select a project first.';   
     }
-    ProjectManager.addTodoToProject(activeProjectId, todoTitle);
+    const newTodo = new Todo(todoTitle);
+    ProjectManager.addTodoToProject(activeProjectId, newTodo);
     renderAll();    
 }
 
 function onSaveTodo(todoData) {
-    ProjectManager.updateTodo(activeProjectId, todoData);
+    ProjectManager.updateTodo(activeProjectId, todoData.id, todoData);
     UI.hideTodoModal();
     renderAll();
 }
 
 function onEditTodo(todoId) {
-    const todo = ProjectManager.getTodo(activeProjectId, todoId);
-    UI.showTodoModal(todo);
+    const activeProject = ProjectManager.getProjectById(activeProjectId);
+    if (activeProject) {
+        const todo = activeProject.getTodos().find(t => t.id === todoId); 
+        UI.showTodoModal(todo);
+    } 
 }
 
 function onDeleteTodo(todoId) {
@@ -60,24 +71,21 @@ function onDeleteTodo(todoId) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // On page load, set the first project as active and render everything
-    let initialProjects = ProjectManager.getProjects();
+    const projects = ProjectManager.getProjects();
 
-    if (initialProjects.length === 0) {
-        // Create a default project if none exist
-        ProjectManager.addProject('Default Project');
-        initialProjects = ProjectManager.getProjects();
+    // If projects exist, make the first one active
+    if (projects.length > 0) {
+        activeProjectId = projects[0].id;
     }
-
-        activeProjectId = initialProjects[0].id;
-        renderAll();
-
-        UI.setupEventListeners({
-            onAddProject,
-            onSelectProject,
-            onAddTodo,
-            onSaveTodo,
-            onEditTodo,
-            onDeleteTodo,
-        });
+    renderAll();
+    
+    UI.setupEventListeners({
+        onAddProject,
+        onSelectProject,
+        onAddTodo,
+        onSaveTodo,
+        onEditTodo,
+        onDeleteTodo,
+    });
 });
 
