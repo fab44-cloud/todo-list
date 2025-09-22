@@ -48,6 +48,24 @@ const addTodoToProject = (projectId, todo) => {
     }
 };
 
+const updateTodo = (projectId, todoId, todoData) => {
+    const project = getProjectById(projectId);
+    if (project) {
+        project.updateTodo(todoId, todoData);
+    } else {
+        console.error('Project not found');
+    }
+};
+
+const deleteTodo = (projectId, todoId) => {
+    const project = getProjectById(projectId);
+    if (project) {
+        project.removeTodo(todoId);
+    } else {
+        console.error('Project not found');
+    }
+}
+
 // Function to move a todo from one project to another
 const moveTodo = (todoId, fromProjectId, toProjectId) => {
     const fromProject = getProjectById(fromProjectId);
@@ -71,5 +89,7 @@ export {
     addProject,
     removeProject,
     addTodoToProject,
+    updateTodo,
+    deleteTodo,
     moveTodo
 };
