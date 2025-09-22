@@ -48,6 +48,7 @@ export function renderTodos(todos, projectName) {
         todoItem.innerHTML =
         `<div class="todo-info">
             <h3>${todo.title}</h3>
+            <p class="todo-description">${todo.description || 'No description'}</p>
             <span class="due-date">${todo.dueDate || 'No due date'}</span>
         </div>
         <div class="todo-actions">
@@ -82,7 +83,6 @@ export function hideTodoModal() {
 
 export function setupEventListeners({
     onAddProject,
-    onAddTodo,
     onSelectProject,
     onEditTodo,
     onDeleteTodo,
