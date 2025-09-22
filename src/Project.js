@@ -16,6 +16,16 @@ class Project {
         }
     }
 
+    // Update a todo item by its ID with new data
+    updateTodo(todoId, updatedTodoData) {
+        const todoToUpdate = this.todos.find(todo => todo.id === todoId);
+        if (todoToUpdate) {
+            Object.assign(todoToUpdate, updatedTodoData);
+        } else {
+            console.error(`Todo with ID ${todoId} not found in project ${this.id}`);
+        }
+    }
+
     // Remove a todo item by its ID
     removeTodo(todoId) {
         this.todos = this.todos.filter(todo => todo.id !== todoId)   

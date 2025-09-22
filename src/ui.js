@@ -106,11 +106,7 @@ export function setupEventListeners({
     });
 
     addTodoBtn.addEventListener('click', () => {
-        const title = newTodoInput.value.trim();
-        if (title) {
-            onAddTodo(title);
-            newTodoInput.value = '';
-        }
+        showTodoModal();
     });
 
     todoListElement.addEventListener('click', e => {
@@ -130,14 +126,15 @@ export function setupEventListeners({
     todoEditForm.addEventListener('submit', e => {
         e.preventDefault();
         const form = e.target;
+        const todoId = form.dataset.todoId; 
+
         const todoData = {
-            id: form.dataset.todoId,
             title: form.querySelector('#todo-title').value,
             description: form.querySelector('#todo-description').value,
             dueDate: form.querySelector('#todo-duedate').value,
             priority: form.querySelector('#todo-priority').value, 
         };
-        onSaveTodo(todoData);
+        onSaveTodo(todoId, todoData);
     });
 
     // Close modal functionality

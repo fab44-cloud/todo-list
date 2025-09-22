@@ -50,8 +50,20 @@ function onAddTodo(todoTitle) {
     renderAll();    
 }
 
-function onSaveTodo(todoData) {
-    ProjectManager.updateTodo(activeProjectId, todoData.id, todoData);
+function onSaveTodo(todoId, todoData) {
+    if (todoId) {
+        ProjectManager.updateTodo(activeProjectId, todoId, todoData); 
+    } else {
+        const newTodo = new Todo(
+            todoData.title,
+            todoData.description, 
+            todoData.dueDate, 
+            todoData.priority, 
+            todoData.notes, 
+            todoData.checklist
+        );
+        ProjectManager.addTodoToProject(activeProjectId, newTodo);
+    }
     UI.hideTodoModal();
     renderAll();
 }
