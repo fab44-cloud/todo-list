@@ -58,6 +58,8 @@ export function renderTodos(todos, projectName) {
                 </summary> 
                 <div class="todo-details">
                     <p>${todo.description || 'No description'}</p>
+                    ${todo.notes ? `<p class="todo-notes">${todo.notes}</p>` : ''}
+                    ${todo.checklist.length ? renderChecklistItems(todo.checklist) : ''}
                 </div>
                 <div class="todo-actions">
                     <button class="edit-btn">Edit</button>
@@ -67,6 +69,15 @@ export function renderTodos(todos, projectName) {
         `;
         todoListElement.appendChild(todoItem);
     });
+}
+
+function renderChecklistItems(checklist) {
+    let html = '<ul>';
+    checklist.forEach(item => {
+        html += `<li><input type="checkbox" disabled ${item.completed ? 'checked' : ''}><span>${item.text}</span></li>`;
+    });
+    html += '</ul>'
+    return html;
 }
 
 // Function to populate and show the modal
@@ -150,15 +161,36 @@ export function setupEventListeners({
     todoEditForm.addEventListener('submit', e => {
         e.preventDefault();
         const form = e.target;
-        const todoId = form.dataset.todoId; 
+        const todoId = form.dataset.todoId;
+
+        const checklistItems = Array.from(document.querySelectorAll('#todo-checklist-container')).map(li => {
+            return {
+                text: li.querySelector('span').textContent,
+                completed: li.querySelector('input[type="checkbox"]').checked
+            };
+        });
 
         const todoData = {
             title: form.querySelector('#todo-title').value,
             description: form.querySelector('#todo-description').value,
             dueDate: form.querySelector('#todo-duedate').value,
-            priority: form.querySelector('#todo-priority').value, 
+            priority: form.querySelector('#todo-priority').value,
+            notes: form.querySelector('#todo-notes').value,
+            checklist: checklistItems 
         };
         onSaveTodo(todoId, todoData);
+    });
+
+    const addChecklistItemBtn = document.getElementById('add-checklist-item-btn');
+    addChecklistItemBtn?.addEventListener('click', () => {
+        const newItemText = document.getElementById('new-checklist-item').value.trim();
+        if (newItemText) {
+            const checklistContainer = document.getElementById('todo-checklist-container');
+            const li = document.createElement('li');
+            li.innerHTML = `<input type="checkbox"><span>${newItemText}</span>`;
+            checklistContainer.appendChild(li);
+            document.getElementById('new-checklist-item').value = '';
+        }
     });
 
     // Close modal functionality
