@@ -11,6 +11,8 @@ const newProjectInput = document.getElementById('new-project-input');
 // Modals
 const todoModal = document.getElementById('todo-modal');
 const todoEditForm = document.getElementById('todo-edit-form');
+const todoNotes = todoEditForm.querySelector('#todo-notes');
+const todoChecklistContainer = todoEditForm.querySelector('#todo-checklist-container');
 
 
 // View all projects
@@ -78,12 +80,25 @@ export function showTodoModal(todo) {
         todoEditForm.querySelector('#todo-description').value = todo.description;
         todoEditForm.querySelector('#todo-duedate').value = todo.dueDate;
         todoEditForm.querySelector('#todo-priority').value = todo.priority;
+        todoEditForm.querySelector('#todo-notes').value = todo.notes;
+        renderChecklist(todo.checklist);
     } else {
         todoEditForm.dataset.todoId = '';
         todoEditForm.reset();
+        renderChecklist([]);
     }
 
     todoModal.classList.remove('hidden');
+}
+
+function renderChecklist(checklist) {
+    const checklistContainer = document.getElementById('todo-checklist-container');
+    checklistContainer.innterHTML = '';
+    checklist.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<input type="checkbox" ${item.completed ? 'checked' : ''}><span>${item.text}</span>`;
+        checklistContainer.appendChild(li);
+    });
 }
 
 export function hideTodoModal() {
