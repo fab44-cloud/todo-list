@@ -1,0 +1,11 @@
+.todo-item.priority-low {
+    background-color: #f0f0f0;
+}
+
+.todo-item.priority-medium {
+    background-color: #fffacd;
+}
+
+.todo-item.priority-high {
+    background-color: #ffcccb;
+}
