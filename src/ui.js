@@ -107,7 +107,7 @@ function renderChecklist(checklist) {
     checklistContainer.innterHTML = '';
     checklist.forEach(item => {
         const li = document.createElement('li');
-        li.innerHTML = `<input type="checkbox" ${item.completed ? 'checked' : ''}><span>${item.text}</span>`;
+        li.innerHTML = `<label><input type="checkbox" ${item.completed ? 'checked' : ''}><span>${item.text}</span></label>`;
         checklistContainer.appendChild(li);
     });
 }
@@ -163,7 +163,7 @@ export function setupEventListeners({
         const form = e.target;
         const todoId = form.dataset.todoId;
 
-        const checklistItems = Array.from(document.querySelectorAll('#todo-checklist-container')).map(li => {
+        const checklistItems = Array.from(document.querySelectorAll('#todo-checklist-container li')).map(li => {
             return {
                 text: li.querySelector('span').textContent,
                 completed: li.querySelector('input[type="checkbox"]').checked
@@ -187,7 +187,7 @@ export function setupEventListeners({
         if (newItemText) {
             const checklistContainer = document.getElementById('todo-checklist-container');
             const li = document.createElement('li');
-            li.innerHTML = `<input type="checkbox"><span>${newItemText}</span>`;
+            li.innerHTML = `<label><input type="checkbox"><span>${newItemText}</span></label>`;
             checklistContainer.appendChild(li);
             document.getElementById('new-checklist-item').value = '';
         }
