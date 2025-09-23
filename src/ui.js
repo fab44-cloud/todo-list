@@ -3,7 +3,6 @@
 const projectListElement = document.getElementById('project-list');
 const todoListElement = document.getElementById('todo-list');
 const currentProjectTitleElement = document.getElementById('current-project-title');
-const addTodoBtn = document.getElementById('add-todo-btn');
 const newTodoInput = document.getElementById('new-todo-input');
 const addProjectBtn = document.getElementById('add-project-btn');
 const newProjectInput = document.getElementById('new-project-input');
@@ -104,10 +103,21 @@ export function showTodoModal(todo) {
 
 function renderChecklist(checklist) {
     const checklistContainer = document.getElementById('todo-checklist-container');
-    checklistContainer.innterHTML = '';
+    checklistContainer.innerHTML = '';
     checklist.forEach(item => {
         const li = document.createElement('li');
-        li.innerHTML = `<label><input type="checkbox" ${item.completed ? 'checked' : ''}><span>${item.text}</span></label>`;
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        if (item.completed) {
+            checkbox.checked = true;
+        }
+        const span = document.createElement('span');
+        span.textContent = item.text;
+
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        li.appendChild(label);
         checklistContainer.appendChild(li);
     });
 }
@@ -138,10 +148,6 @@ export function setupEventListeners({
         if (li) {
             onSelectProject(li.dataset.projectId);
         }
-    });
-
-    addTodoBtn.addEventListener('click', () => {
-        showTodoModal();
     });
 
     todoListElement.addEventListener('click', e => {
@@ -187,14 +193,23 @@ export function setupEventListeners({
         if (newItemText) {
             const checklistContainer = document.getElementById('todo-checklist-container');
             const li = document.createElement('li');
-            li.innerHTML = `<label><input type="checkbox"><span>${newItemText}</span></label>`;
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            const span = document.createElement('span');
+            span.textContent = newItemText;
+
+            label.appendChild(checkbox);
+            label.appendChild(span);
+            li.appendChild(label);
             checklistContainer.appendChild(li);
+
             document.getElementById('new-checklist-item').value = '';
         }
     });
 
     // Close modal functionality
-    const closeModalBtn = todoModal.querySelector('.close-btn');
+    const closeModalBtn = document.getElementById('todo-modal').querySelector('.close-btn');
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', () => hideTodoModal());
     }
