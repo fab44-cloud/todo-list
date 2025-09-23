@@ -52,6 +52,10 @@
             <textarea id="todo-description"></textarea>
           </div>
           <div class="form-group">
+            <label for="todo-notes">Notes:</label>
+            <textarea id="todo-notes"></textarea>
+          </div>
+          <div class="form-group">
             <label for="todo-duedate">Due Date:</label>
             <input type="date" id="todo-duedate" />
           </div>
@@ -62,6 +66,20 @@
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select>
+          </div>
+          <div class="form-group">
+            <fieldset>
+              <legend>Checklist:</legend>
+              <ul id="todo-checklist-container"></ul>
+              <div class="add-checklist-item-container">
+                <input
+                  type="text"
+                  id="new-checklist-item"
+                  placeholder="Add checklist item"
+                />
+                <button id="add-checklist-item-btn">+</button>
+              </div>
+            </fieldset>
           </div>
           <button type="submit">Save Changes</button>
         </form>
