@@ -1,5 +1,5 @@
 // Application logic
-import Project from './Project';
+import Project from './Project.js';
 
 let projects = [];
 

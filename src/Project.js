@@ -1,5 +1,5 @@
 // Data model
-import Todo from './Todo';
+import Todo from './Todo.js';
 
 class Project {
     constructor(name) {

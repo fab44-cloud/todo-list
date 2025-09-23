@@ -1,9 +1,9 @@
 // The brain or controller (application entry point) 
 // Manages data, decides when to update the display and defines what should happen when a user interacts with the page.
 
-import * as UI from './ui';
-import * as ProjectManager from './ProjectManager';
-import  Todo  from './Todo';
+import * as UI from './ui.js';
+import * as ProjectManager from './ProjectManager.js';
+import  Todo  from './Todo.js';
 
 let activeProjectId = null;
 
