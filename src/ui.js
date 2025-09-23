@@ -45,15 +45,24 @@ export function renderTodos(todos, projectName) {
         const todoItem = document.createElement('div');
         todoItem.dataset.todoId = todo.id;
         todoItem.classList.add('todo-item', `priority-${todo.priority}`);
-        todoItem.innerHTML =
-        `<div class="todo-info">
-            <h3>${todo.title}</h3>
-            <p class="todo-description">${todo.description || 'No description'}</p>
-            <span class="due-date">${todo.dueDate || 'No due date'}</span>
-        </div>
-        <div class="todo-actions">
-            <button class="delete-btn">&times;</button>
-        </div>`;
+
+        todoItem.innerHTML = `
+            <details>
+                <summary>
+                    <div class="todo-summary">
+                        <h3>${todo.title}</h3>
+                        <span class="due-date">${todo.dueDate || 'No due date'}</span>
+                    </div>
+                </summary> 
+                <div class="todo-details">
+                    <p>${todo.description || 'No description'}</p>
+                </div>
+                <div class="todo-actions">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">&times;</button>
+                </div>
+            </details>
+        `;
         todoListElement.appendChild(todoItem);
     });
 }
@@ -117,7 +126,7 @@ export function setupEventListeners({
 
         if (e.target.classList.contains('delete-btn')) {
             onDeleteTodo(todoId);
-        } else if (e.target.closest('todo-info')) {
+        } else if (e.target.classList.contains('edit-btn')) {
             onEditTodo(todoId);
         }
     });
