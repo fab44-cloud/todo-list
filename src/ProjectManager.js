@@ -1,7 +1,8 @@
 // Application logic
 import Project from './Project.js';
+import { getStoredProjects, saveProjects } from './storage.js';
 
-let projects = [];
+let projects = getStoredProjects;
 
 // Function to get all projects
 const getProjects = () => {
@@ -18,6 +19,7 @@ const addProject = (name) => {
     if (!name) return;
     const newProject = new Project(name);
     projects.push(newProject);
+    saveProjects(projects);
 };
 
 // Function to remove a project (preventing removal of the default project)
@@ -25,6 +27,7 @@ const removeProject = (projectId) => {
     const projectToRemove = getProjectById(projectId);
     if (projectToRemove && projectToRemove.name !== 'Default Project') {
         projects = projects.filter(project => project.id !== projectId);
+        saveProjects(projects);
     } else {
         console.error('Cannot remove the default project.');
     }
@@ -34,7 +37,8 @@ const removeProject = (projectId) => {
 const addTodoToProject = (projectId, todo) => {
     const project = getProjectById(projectId);
     if (project) {
-        project.addTodo(todo)
+        project.addTodo(todo);
+        saveProjects(projects);
     } else {
         console.error('Project not found');
     }
@@ -44,6 +48,7 @@ const updateTodo = (projectId, todoId, todoData) => {
     const project = getProjectById(projectId);
     if (project) {
         project.updateTodo(todoId, todoData);
+        saveProjects(projects);
     } else {
         console.error('Project not found');
     }
@@ -53,6 +58,7 @@ const deleteTodo = (projectId, todoId) => {
     const project = getProjectById(projectId);
     if (project) {
         project.removeTodo(todoId);
+        saveProjects(projects);
     } else {
         console.error('Project not found');
     }
@@ -67,6 +73,7 @@ const moveTodo = (todoId, fromProjectId, toProjectId) => {
         if (todoToMove) {
             fromProject.removeTodo(todoId);
             toProject.addTodo(todoToMove);
+            saveProjects(projects);
             return true;
         }
     }
