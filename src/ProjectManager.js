@@ -3,14 +3,6 @@ import Project from './Project.js';
 
 let projects = [];
 
-const createDefaultProject = () => {
-    // Check if projects array is empty, and if so, add a default project
-    if (projects.length === 0) {
-        const defaultProject = new Project('Default Project');
-        projects.push(defaultProject);
-    }
-};
-
 // Function to get all projects
 const getProjects = () => {
     return [...projects];
@@ -30,9 +22,9 @@ const addProject = (name) => {
 
 // Function to remove a project (preventing removal of the default project)
 const removeProject = (projectId) => {
-    const projectToRemove = projects.find(project => project.id === projectId);
+    const projectToRemove = getProjectById(projectId);
     if (projectToRemove && projectToRemove.name !== 'Default Project') {
-        projects = projects.filter(project => projectId !== project.id);
+        projects = projects.filter(project => project.id !== projectId);
     } else {
         console.error('Cannot remove the default project.');
     }
@@ -80,8 +72,6 @@ const moveTodo = (todoId, fromProjectId, toProjectId) => {
     }
     return false;
 };
-
-createDefaultProject();
 
 export {
     getProjects,
