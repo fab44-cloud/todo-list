@@ -4,25 +4,27 @@
 import * as UI from './ui.js';
 import * as ProjectManager from './ProjectManager.js';
 import  Todo  from './Todo.js';
+// import { format, parseISO } from 'date-fns';
 
 let activeProjectId = null;
 
 function renderAll() {
     const projects = ProjectManager.getProjects();
-    const activeProject = projects.find(project => project.id === activeProjectId);
+    if (projects.length > 0) {
+        if (!activeProjectId || !projects.find(p => p.id === activeProjectId)) {
+            activeProjectId = projects[0].id;
+        }
+    } else {
+        activeProjectId = null;
+    }
 
     UI.renderProjects(projects, activeProjectId);
     
-    // If an active project exists, render its todos. Otherwise, display an empty state.
+    const activeProject = activeProjectId ? ProjectManager.getProjectById(activeProjectId) : null;
     if (activeProject) {
         UI.renderTodos(activeProject.todos, activeProject.name);
     } else {
-        if (projects.length > 0) {
-            activeProjectId = projects[0].id;
-            renderAll();
-        } else {
-            UI.renderTodos([], "No Project Found"); 
-        }
+        UI.renderTodos([], "No Project Found"); 
     }
 }
 
@@ -41,15 +43,6 @@ function onSelectProject(projectId) {
     renderAll();
 }
 
-function onAddTodo(todoTitle) {
-    if (!activeProjectId) {
-        return 'Please select a project first.';   
-    }
-    const newTodo = new Todo(todoTitle);
-    ProjectManager.addTodoToProject(activeProjectId, newTodo);
-    renderAll();    
-}
-
 function onSaveTodo(todoId, todoData) {
     if (todoId) {
         ProjectManager.updateTodo(activeProjectId, todoId, todoData); 
@@ -57,7 +50,7 @@ function onSaveTodo(todoId, todoData) {
         const newTodo = new Todo(
             todoData.title,
             todoData.description, 
-            todoData.dueDate, 
+            todoData.dueDate ? parseISO(todoData.dueDate) : null, 
             todoData.priority, 
             todoData.notes, 
             todoData.checklist
@@ -85,7 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // On page load, set the first project as active and render everything
     const projects = ProjectManager.getProjects();
 
-    // If projects exist, make the first one active
+    // Add default project if none exist
+    if (projects.length === 0) {
+        ProjectManager.addProject('Default Project');
+    }
+
+    // On page load, set the first project as active and render everything
     if (projects.length > 0) {
         activeProjectId = projects[0].id;
     }
@@ -94,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.setupEventListeners({
         onAddProject,
         onSelectProject,
-        onAddTodo,
         onSaveTodo,
         onEditTodo,
         onDeleteTodo,
