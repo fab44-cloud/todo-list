@@ -1,11 +1,13 @@
 // Presentation layer (DOM manipulation)
 
+import { format, parseISO } from 'date-fns';
+
 const projectListElement = document.getElementById('project-list');
 const todoListElement = document.getElementById('todo-list');
 const currentProjectTitleElement = document.getElementById('current-project-title');
-const newTodoInput = document.getElementById('new-todo-input');
 const addProjectBtn = document.getElementById('add-project-btn');
 const newProjectInput = document.getElementById('new-project-input');
+const newTodoBtn = document.getElementById('new-todo-btn');
 
 // Modals
 const todoModal = document.getElementById('todo-modal');
@@ -47,18 +49,20 @@ export function renderTodos(todos, projectName) {
         todoItem.dataset.todoId = todo.id;
         todoItem.classList.add('todo-item', `priority-${todo.priority}`);
 
+        const formattedDueDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MM/dd/yyyy') : 'No due date';
+
         todoItem.innerHTML = `
             <details>
                 <summary>
                     <div class="todo-summary">
                         <h3>${todo.title}</h3>
-                        <span class="due-date">${todo.dueDate || 'No due date'}</span>
+                        <span class="due-date">${formattedDueDate}</span>
                     </div>
                 </summary> 
                 <div class="todo-details">
                     <p>${todo.description || 'No description'}</p>
                     ${todo.notes ? `<p class="todo-notes">${todo.notes}</p>` : ''}
-                    ${todo.checklist.length ? renderChecklistItems(todo.checklist) : ''}
+                    ${todo.checklist && todo.checklist.length ? renderChecklistItems(todo.checklist) : ''}
                 </div>
                 <div class="todo-actions">
                     <button class="edit-btn">Edit</button>
@@ -88,7 +92,7 @@ export function showTodoModal(todo) {
         todoEditForm.dataset.todoId = todo.id;
         todoEditForm.querySelector('#todo-title').value = todo.title;
         todoEditForm.querySelector('#todo-description').value = todo.description;
-        todoEditForm.querySelector('#todo-duedate').value = todo.dueDate;
+        todoEditForm.querySelector('#todo-duedate').value = todo.dueDate ? format(parseISO(todo.dueDate), 'yyyy-MM-dd') : '';
         todoEditForm.querySelector('#todo-priority').value = todo.priority;
         todoEditForm.querySelector('#todo-notes').value = todo.notes;
         renderChecklist(todo.checklist);
@@ -150,6 +154,11 @@ export function setupEventListeners({
         }
     });
 
+    newTodoBtn?.addEventListener('click', () => {
+        console.log('add todo!!!');
+        showTodoModal();
+    });
+
     todoListElement.addEventListener('click', e => {
         const todoItem = e.target.closest('.todo-item');
         if (!todoItem) return;
@@ -209,10 +218,8 @@ export function setupEventListeners({
     });
 
     // Close modal functionality
-    const closeModalBtn = document.getElementById('todo-modal').querySelector('.close-btn');
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', () => hideTodoModal());
-    }
+    const closeModalBtn = todoModal.querySelector('.close-btn');
+    closeModalBtn.addEventListener('click', () => hideTodoModal());
 
     window.addEventListener('click', e => {
         if (e.target === todoModal) {
