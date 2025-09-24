@@ -27,6 +27,7 @@
       <!-- Main content for todos -->
       <main class="content">
         <h1 id="current-project-title"></h1>
+        <button id="new-todo-btn">Add New Todo</button>
         <div class="todo-list" id="todo-list">
           <!-- Todos for the selected project will be dynamically added here -->
         </div>
@@ -35,6 +36,7 @@
     <!-- The modal for editing todos-->
     <div id="todo-modal" class="modal hidden">
       <div class="modal-content">
+        <button class="close-btn">&times;</button>
         <h2>Edit Todo</h2>
         <form id="todo-edit-form">
           <input type="hidden" id="todo-id" />
@@ -80,6 +82,6 @@
         </form>
       </div>
     </div>
-    <script type="module" src="index.js"></script>
+    <script src="../dist/main.js"></script>
   </body>
 </html>
