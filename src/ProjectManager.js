@@ -3,6 +3,9 @@ import Project from './Project.js';
 import { getStoredProjects, saveProjects } from './storage.js';
 
 let projects = getStoredProjects;
+if (!Array.isArray(projects)) {
+    projects = [];
+}
 
 // Function to get all projects
 const getProjects = () => {
