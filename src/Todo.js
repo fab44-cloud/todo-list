@@ -19,9 +19,12 @@ class Todo {
         this.completed = false; // Default status is not completed
     }
 
-    // Method to toggle completion status
-    toggleCompleted() {
-        this.completed = !this.completed;
+    // Static method to create a Todo instance from a plain object
+    static fromPlainObject(obj) {
+        const todo = new Todo(obj.title, obj.description, obj.dueDate, obj.priority, obj.notes, obj.checklist);
+        todo.id = obj.id;
+        todo.completed = obj.completed;
+        return todo;
     }
 }
 
