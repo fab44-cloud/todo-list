@@ -40,6 +40,14 @@ class Project {
     findTodos(todoId) {
         return this.todos.find(todo => todo.id === todoId);
     }
+
+    // Static method to create a Project instance from a plain object
+    static fromPlainObject(obj) {
+        const project = new Project(obj.name);
+        project.id = obj.id; // Preserve the original ID
+        project.todos = obj.todos.map(todo => Todo.fromPlainObject(todo));
+        return project;
+    }
 }
 
 export default Project;
