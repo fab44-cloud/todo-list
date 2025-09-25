@@ -1,4 +1,5 @@
 // Data model
+import { parseISO } from 'date-fns';
 
 class Todo {
     constructor(
@@ -24,6 +25,9 @@ class Todo {
         const todo = new Todo(obj.title, obj.description, obj.dueDate, obj.priority, obj.notes, obj.checklist);
         todo.id = obj.id;
         todo.completed = obj.completed;
+        if (obj.dueDate) {
+            todo.dueDate = parseISO(obj.dueDate); // Convert back to Date object
+        }
         return todo;
     }
 }
