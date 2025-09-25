@@ -4,23 +4,25 @@
 import * as UI from './ui.js';
 import * as ProjectManager from './ProjectManager.js';
 import  Todo  from './Todo.js';
-// import { format, parseISO } from 'date-fns';
 
 let activeProjectId = null;
 
 function renderAll() {
     const projects = ProjectManager.getProjects();
+
+    // Ensure there is always a valid active project ID.
     if (projects.length > 0) {
         if (!activeProjectId || !projects.find(p => p.id === activeProjectId)) {
-            activeProjectId = projects[0].id;
+            activeProjectId = projects.id;
         }
     } else {
         activeProjectId = null;
     }
-
-    UI.renderProjects(projects, activeProjectId);
     
     const activeProject = activeProjectId ? ProjectManager.getProjectById(activeProjectId) : null;
+    
+    UI.renderProjects(projects, activeProjectId);
+    
     if (activeProject) {
         UI.renderTodos(activeProject.todos, activeProject.name);
     } else {
@@ -75,18 +77,18 @@ function onDeleteTodo(todoId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // On page load, set the first project as active and render everything
-    const projects = ProjectManager.getProjects();
+    // Check for existing projects in localStorage on page load
+    let projects = ProjectManager.getProjects();
 
     // Add default project if none exist
     if (projects.length === 0) {
         ProjectManager.addProject('Default Project');
+        projects = ProjectManager.getProjects();
     }
 
-    // On page load, set the first project as active and render everything
-    if (projects.length > 0) {
-        activeProjectId = projects[0].id;
-    }
+    // Set the active project ID after projects are loaded or created
+    activeProjectId = projects[0].id;
+    
     renderAll();
     
     UI.setupEventListeners({
