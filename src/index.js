@@ -4,6 +4,7 @@
 import * as UI from './ui.js';
 import * as ProjectManager from './ProjectManager.js';
 import  Todo  from './Todo.js';
+import { parseISO } from 'date-fns';
 
 let activeProjectId = null;
 
@@ -13,7 +14,7 @@ function renderAll() {
     // Ensure there is always a valid active project ID.
     if (projects.length > 0) {
         if (!activeProjectId || !projects.find(p => p.id === activeProjectId)) {
-            activeProjectId = projects.id;
+            activeProjectId = projects[0].id;
         }
     } else {
         activeProjectId = null;
@@ -66,7 +67,7 @@ function onSaveTodo(todoId, todoData) {
 function onEditTodo(todoId) {
     const activeProject = ProjectManager.getProjectById(activeProjectId);
     if (activeProject) {
-        const todo = activeProject.getTodos().find(t => t.id === todoId); 
+        const todo = activeProject.findTodos(todoId);
         UI.showTodoModal(todo);
     } 
 }
@@ -74,6 +75,22 @@ function onEditTodo(todoId) {
 function onDeleteTodo(todoId) {
     ProjectManager.deleteTodo(activeProjectId, todoId);
     renderAll();
+}
+
+function onDeleteProject(projectId) {
+    ProjectManager.removeProject(projectId);
+    renderAll();
+}
+
+function onToggleTodoComplete(todoId) {
+    const project = ProjectManager.getProjectById(activeProjectId);
+    if (project) {
+        const todo = project.findTodos(todoId);
+        if (todo) {
+            todo.isComplete = !todo.isComplete;
+            renderAll();
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -97,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         onSaveTodo,
         onEditTodo,
         onDeleteTodo,
+        onDeleteProject,
+        onToggleTodoComplete
     });
 });
 
