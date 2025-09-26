@@ -110,6 +110,25 @@ project-list li.active {
     flex-shrink: 0;
 }
 
+.todo-details {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+edit-btn, .delete-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
 .todo-item.priority-low {
     border-left: 5px solid #28a745;
 }
