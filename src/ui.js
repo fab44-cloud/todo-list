@@ -62,10 +62,11 @@ export function renderTodos(todos, projectName) {
         const formattedDueDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MM/dd/yyyy') : 'No due date';
 
         todoItem.innerHTML = `
+    <div class="todo-summary-row">
+        <input type="checkbox" class="complete-todo-checkbox" ${todo.isComplete ? 'checked' : ''}>
             <details>
                 <summary>
                     <div class="todo-summary">
-                        <input type="checkbox" class="complete-todo-checkbox" ${todo.isComplete ? 'checked' : ''}>
                         <h3 class="${todo.isComplete ? 'completed-text' : ''}">${todo.title}</h3>
                         <span class="due-date">${formattedDueDate}</span>
                     </div>
@@ -80,6 +81,7 @@ export function renderTodos(todos, projectName) {
                     <button class="delete-btn">&times;</button>
                 </div>
             </details>
+    </div>
         `;
         todoListElement.appendChild(todoItem);
     });
