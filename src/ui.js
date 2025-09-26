@@ -59,7 +59,7 @@ export function renderTodos(todos, projectName) {
             todoItem.classList.add('completed');
         }
 
-        const formattedDueDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MM/dd/yyyy') : 'No due date';
+        const formattedDueDate = todo.dueDate ? format(todo.dueDate, 'MM/dd/yyyy') : 'No due date';
 
         todoItem.innerHTML = `
     <div class="todo-summary-row">
