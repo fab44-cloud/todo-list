@@ -5,6 +5,7 @@ import * as UI from './ui.js';
 import * as ProjectManager from './ProjectManager.js';
 import  Todo  from './Todo.js';
 import { parseISO } from 'date-fns';
+import './styles.css';
 
 let activeProjectId = null;
 
