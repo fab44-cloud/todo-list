@@ -70,19 +70,56 @@ project-list li.active {
     opacity: 1;
 }
 
-.todo-item.priority-low {
-    background-color: #f0f0f0;
+.todo-item {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.todo-item.priority-medium {
-    background-color: #fffacd;
-}
-
-.todo-item.priority-high {
-    background-color: #ffcccb;
+.todo-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .todo-summary-row {
     display: flex;
     align-items: center;
 }
+
+.todo-summary h3 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.complete-todo-checkbox {
+    cursor: pointer;
+}
+
+.completed h3, .completed-text {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+.due-date {
+    font-size: 1rem;
+    color: #6c757d;
+    flex-shrink: 0;
+}
+
+.todo-item.priority-low {
+    border-left: 5px solid #28a745;
+}
+
+.todo-item.priority-medium {
+    border-left: 5px solid #ffc107;
+}
+
+.todo-item.priority-high {
+    border-left: 5px solid #dc3545;
+}
+
+

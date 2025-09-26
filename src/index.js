@@ -54,7 +54,7 @@ function onSaveTodo(todoId, todoData) {
         const newTodo = new Todo(
             todoData.title,
             todoData.description, 
-            todoData.dueDate ? parseISO(todoData.dueDate) : null, 
+            dueDateObject, 
             todoData.priority, 
             todoData.notes, 
             todoData.checklist

@@ -105,7 +105,7 @@ export function showTodoModal(todo) {
         todoEditForm.dataset.todoId = todo.id;
         todoEditForm.querySelector('#todo-title').value = todo.title;
         todoEditForm.querySelector('#todo-description').value = todo.description;
-        todoEditForm.querySelector('#todo-duedate').value = todo.dueDate ? format(parseISO(todo.dueDate), 'yyyy-MM-dd') : '';
+        todoEditForm.querySelector('#todo-duedate').value = todo.dueDate ? format(todo.dueDate, 'yyyy-MM-dd') : '';
         todoEditForm.querySelector('#todo-priority').value = todo.priority;
         todoEditForm.querySelector('#todo-notes').value = todo.notes;
         renderChecklist(todo.checklist);
