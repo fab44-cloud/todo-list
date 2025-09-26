@@ -28,6 +28,13 @@ export function renderProjects(projects, activeProjectId){
         if (project.id === activeProjectId){
             listItem.classList.add('active');
         }
+
+        if (project.name !== 'Default Project') {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'x';
+            deleteBtn.classList.add('delete-project-btn');
+            listItem.appendChild(deleteBtn);
+        }
         
         projectListElement.appendChild(listItem);
     });
@@ -48,6 +55,9 @@ export function renderTodos(todos, projectName) {
         const todoItem = document.createElement('div');
         todoItem.dataset.todoId = todo.id;
         todoItem.classList.add('todo-item', `priority-${todo.priority}`);
+        if (todo.isComplete) {
+            todoItem.classList.add('completed');
+        }
 
         const formattedDueDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MM/dd/yyyy') : 'No due date';
 
@@ -55,7 +65,8 @@ export function renderTodos(todos, projectName) {
             <details>
                 <summary>
                     <div class="todo-summary">
-                        <h3>${todo.title}</h3>
+                        <input type="checkbox" class="complete-todo-checkbox" ${todo.isComplete ? 'checked' : ''}>
+                        <h3 class="${todo.isComplete ? 'completed-text' : ''}">${todo.title}</h3>
                         <span class="due-date">${formattedDueDate}</span>
                     </div>
                 </summary> 
@@ -135,7 +146,9 @@ export function setupEventListeners({
     onSelectProject,
     onEditTodo,
     onDeleteTodo,
-    onSaveTodo
+    onSaveTodo,
+    onDeleteProject,
+    onToggleTodoComplete
 }) {
     // Add Project button listener
     addProjectBtn.addEventListener('click', () => {
@@ -148,9 +161,16 @@ export function setupEventListeners({
 
     // Select Project listener (event delegation on parent <ul>)
     projectListElement.addEventListener('click', e => {
-        const li = e.target.closest('li');
-        if (li) {
-            onSelectProject(li.dataset.projectId);
+        if (e.target.classList.contains('delete-project-btn')) {
+            const li = e.target.closest('li');
+            if (li) {
+                onDeleteProject(li.dataset.projectId);
+            }
+        } else {
+            const li = e.target.closest('li');
+            if (li) {
+                onSelectProject(li.dataset.projectId);
+            }
         }
     });
 
@@ -169,7 +189,8 @@ export function setupEventListeners({
             onDeleteTodo(todoId);
         } else if (e.target.classList.contains('edit-btn')) {
             onEditTodo(todoId);
-        }
+        } else if (e.target.classList.contains('complete-todo-checkbox'))
+            onToggleTodoComplete;
     });
 
     // Handle form submission inside the modal
