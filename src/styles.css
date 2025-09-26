@@ -25,6 +25,51 @@ content {
     padding: 3rem;
 }
 
+#project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#project-list li {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+project-list li.active {
+    background-color: #007bff;
+    color: white;
+}
+
+#project-list li:not(.active):hover {
+    background-color: #e9ecef;
+}
+
+.delete-project-btn {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity;
+}
+
+#project-list li:hover .delete-project-btn {
+    opacity: 1;
+}
+
+#project-list li.active .delete-project-btn {
+    color: white;
+    opacity: 1;
+}
+
 .todo-item.priority-low {
     background-color: #f0f0f0;
 }
