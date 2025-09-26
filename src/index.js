@@ -48,6 +48,12 @@ function onSelectProject(projectId) {
 }
 
 function onSaveTodo(todoId, todoData) {
+    let dueDateObject = null;
+
+    if (todoData.dueDate) {
+        dueDateObject = parseISO(todoData.dueDate);
+    }
+    
     if (todoId) {
         ProjectManager.updateTodo(activeProjectId, todoId, todoData); 
     } else {
