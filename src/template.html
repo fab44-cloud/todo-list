@@ -9,30 +9,35 @@
   <body>
     <div class="container">
       <!-- Sidebar for project navigation -->
-      <aside class="sidebar">
-        <h2>Projects</h2>
-        <ul id="project-list">
-          <!-- Projects will be dynamically added here -->
-        </ul>
-        <div class="add-project-container">
-          <input
-            type="text"
-            id="new-project-input"
-            placeholder="New project name"
-          />
-          <button id="add-project-btn">+</button>
-        </div>
-      </aside>
+      <div class="sidebar-area">
+        <aside class="sidebar">
+          <h2>Projects</h2>
+          <ul id="project-list">
+            <!-- Projects will be dynamically added here -->
+          </ul>
+          <div class="add-project-container">
+            <input
+              type="text"
+              id="new-project-input"
+              placeholder="New project name"
+            />
+            <button id="add-project-btn">+</button>
+          </div>
+        </aside>
+      </div>
 
       <!-- Main content for todos -->
-      <main class="content">
-        <h1 id="current-project-title"></h1>
-        <button id="new-todo-btn">Add New Todo</button>
-        <div class="todo-list" id="todo-list">
-          <!-- Todos for the selected project will be dynamically added here -->
-        </div>
-      </main>
+      <div class="content-area">
+        <main class="content">
+          <h1 id="current-project-title"></h1>
+          <button id="new-todo-btn">Add New Todo</button>
+          <div class="todo-list" id="todo-list">
+            <!-- Todos for the selected project will be dynamically added here -->
+          </div>
+        </main>
+      </div>
     </div>
+
     <!-- The modal for editing todos-->
     <div id="todo-modal" class="modal hidden">
       <div class="modal-content">
