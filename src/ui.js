@@ -191,7 +191,7 @@ export function setupEventListeners({
         } else if (e.target.classList.contains('edit-btn')) {
             onEditTodo(todoId);
         } else if (e.target.classList.contains('complete-todo-checkbox'))
-            onToggleTodoComplete;
+            onToggleTodoComplete(todoId);
     });
 
     // Handle form submission inside the modal
