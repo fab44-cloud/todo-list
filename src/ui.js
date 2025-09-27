@@ -177,7 +177,6 @@ export function setupEventListeners({
     });
 
     newTodoBtn?.addEventListener('click', () => {
-        console.log('add todo!!!');
         showTodoModal();
     });
 
