@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <!-- Sidebar for project navigation -->
-      <div class="sidebar-area">
+      <div class="siderbar-area">
         <aside class="sidebar">
           <h2>Projects</h2>
           <ul id="project-list">
@@ -21,7 +21,7 @@
               id="new-project-input"
               placeholder="New project name"
             />
-            <button id="add-project-btn">+</button>
+            <button id="add-project-btn" aria-label="Add Project">+</button>
           </div>
         </aside>
       </div>
@@ -30,10 +30,13 @@
       <div class="content-area">
         <main class="content">
           <h1 id="current-project-title"></h1>
-          <button id="new-todo-btn">Add New Todo</button>
-          <div class="todo-list" id="todo-list">
-            <!-- Todos for the selected project will be dynamically added here -->
-          </div>
+
+          <section>
+            <button id="new-todo-btn">Add New Todo</button>
+            <div class="todo-list" id="todo-list">
+              <!-- Todos for the selected project will be dynamically added here -->
+            </div>
+          </section>
         </main>
       </div>
     </div>
@@ -70,20 +73,22 @@
             </select>
           </div>
           <div class="form-group">
+            <div class="add-checklist-item-container">
+              <input
+                type="text"
+                id="new-checklist-item"
+                placeholder="Add checklist item"
+              />
+              <button id="add-checklist-item-btn">+</button>
+            </div>
             <fieldset>
               <legend>Checklist:</legend>
               <ul id="todo-checklist-container"></ul>
-              <div class="add-checklist-item-container">
-                <input
-                  type="text"
-                  id="new-checklist-item"
-                  placeholder="Add checklist item"
-                />
-                <button id="add-checklist-item-btn">+</button>
-              </div>
             </fieldset>
           </div>
-          <button type="submit">Save Changes</button>
+          <button type="submit" aria-label="Save Todo Changes">
+            Save Changes
+          </button>
         </form>
       </div>
     </div>
