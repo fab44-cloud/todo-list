@@ -7,6 +7,10 @@ if (!Array.isArray(projects)) {
     projects = [];
 }
 
+const _saveState = () => {
+    saveProjects(projects);
+}
+
 // Function to get all projects
 const getProjects = () => {
     return [...projects];
@@ -22,7 +26,7 @@ const addProject = (name) => {
     if (!name) return;
     const newProject = new Project(name);
     projects.push(newProject);
-    saveProjects(projects);
+    _saveState();
 };
 
 // Function to remove a project (preventing removal of the default project)
@@ -30,7 +34,7 @@ const removeProject = (projectId) => {
     const projectToRemove = getProjectById(projectId);
     if (projectToRemove && projectToRemove.name !== 'Default Project') {
         projects = projects.filter(project => project.id !== projectId);
-        saveProjects(projects);
+        _saveState();
     } else {
         console.error('Cannot remove the default project.');
     }
@@ -41,42 +45,37 @@ const addTodoToProject = (projectId, todo) => {
     const project = getProjectById(projectId);
     if (project) {
         project.addTodo(todo);
-        saveProjects(projects);
-    } else {
-        console.error('Project not found');
+        _saveState();
     }
 };
 
 const updateTodo = (projectId, todoId, todoData) => {
     const project = getProjectById(projectId);
     if (project) {
-        project.updateTodo(todoId, todoData);
-        saveProjects(projects);
-    } else {
-        console.error('Project not found');
+        project.updateTodo(todoId, todoData); 
+        _saveState();
     }
 };
+   
 
 const deleteTodo = (projectId, todoId) => {
     const project = getProjectById(projectId);
     if (project) {
         project.removeTodo(todoId);
-        saveProjects(projects);
-    } else {
-        console.error('Project not found');
+        _saveState();
     }
-}
+};
 
 // Function to move a todo from one project to another
 const moveTodo = (todoId, fromProjectId, toProjectId) => {
     const fromProject = getProjectById(fromProjectId);
     const toProject = getProjectById(toProjectId);
     if (fromProject && toProject) {
-        const todoToMove = fromProject.getTodos().find(todo => todo.id === todoId);
+        const todoToMove = fromProject.findTodos(todoId);
         if (todoToMove) {
             fromProject.removeTodo(todoId);
             toProject.addTodo(todoToMove);
-            saveProjects(projects);
+            _saveState();
             return true;
         }
     }
