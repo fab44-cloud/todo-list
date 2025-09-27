@@ -22,12 +22,16 @@ class Todo {
 
     // Static method to create a Todo instance from a plain object
     static fromPlainObject(obj) {
-        const todo = new Todo(obj.title, obj.description, obj.dueDate ? parseISO(obj.dueDate) : null, obj.priority, obj.notes, obj.checklist);
+        const todo = new Todo(
+            obj.title,
+            obj.description,
+            obj.dueDate ? parseISO(obj.dueDate) : null, 
+            obj.priority, 
+            obj.notes, 
+            obj.checklist
+        );
         todo.id = obj.id;
         todo.completed = obj.completed;
-        if (obj.dueDate) {
-            todo.dueDate = parseISO(obj.dueDate); // Convert back to Date object
-        }
         return todo;
     }
 }

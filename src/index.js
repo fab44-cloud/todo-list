@@ -55,7 +55,11 @@ function onSaveTodo(todoId, todoData) {
     }
     
     if (todoId) {
-        ProjectManager.updateTodo(activeProjectId, todoId, todoData); 
+        const updatedTodoData = {
+            ...todoData,
+            dueDate: dueDateObject
+        };
+        ProjectManager.updateTodo(activeProjectId, todoId, updatedTodoData); 
     } else {
         const newTodo = new Todo(
             todoData.title,
@@ -107,11 +111,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add default project if none exist
     if (projects.length === 0) {
         ProjectManager.addProject('Default Project');
-        projects = ProjectManager.getProjects();
     }
 
     // Set the active project ID after projects are loaded or created
-    activeProjectId = projects[0].id;
+    const allProjects = ProjectManager.getProjects();
+    if (allProjects.length > 0) {
+        activeProjectId = allProjects[0].id;
+    }
     
     renderAll();
     
