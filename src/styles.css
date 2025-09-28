@@ -1,3 +1,11 @@
+:root {
+    --color-background-primary: #fff;
+    --color-border: #ddd;
+    --spacing-sm: 1rem;
+    --spacing-md: 15px;
+    --spacing-lg: 30px;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -25,14 +33,17 @@ body {
 }
 
 .sidebar {
-    background-color: #fff;
-    padding: 1rem;
-    border-right: 1px solid #ddd;
+    background-color: var(--color-background-primary);
+    padding: var(--spacing-sm);
+    border-right: 1px solid var(--color-border);
     height: 100%;
 }
 
 .content {
     padding: 3rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #project-list {
@@ -102,12 +113,23 @@ body {
 .todo-summary-row {
     display: flex;
     align-items: center;
+    gap: 10px;
+}
+
+.todo-summary-row summary {
+    flex-grow: 1;
 }
 
 .todo-summary h3 {
     flex-grow: 1;
     margin: 0;
     font-size: 1.1rem;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .complete-todo-checkbox {
@@ -174,8 +196,8 @@ body {
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 30px;
+    background-color: var(--color-background-primary);
+    padding: var(--spacing-lg);
     border-radius: 10px;
     width: 500px;
     max-width: 90%;
