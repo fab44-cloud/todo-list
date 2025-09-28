@@ -62,26 +62,29 @@ export function renderTodos(todos, projectName) {
         const formattedDueDate = todo.dueDate ? format(todo.dueDate, 'MM/dd/yyyy') : 'No due date';
 
         todoItem.innerHTML = `
-    <div class="todo-summary-row">
-        <input type="checkbox" class="complete-todo-checkbox" ${todo.isComplete ? 'checked' : ''}>
-            <details>
+        <div class="todo-summary-row">
+            <input type="checkbox" class="complete-todo-checkbox" ${todo.isComplete ? 'checked' : ''}>
+
+            <details class="todo-details-container">
                 <summary>
                     <div class="todo-summary">
                         <h3 class="${todo.isComplete ? 'completed-text' : ''}">${todo.title}</h3>
                         <span class="due-date">${formattedDueDate}</span>
                     </div>
                 </summary> 
+
                 <div class="todo-details">
                     <p>${todo.description || 'No description'}</p>
                     ${todo.notes ? `<p class="todo-notes">${todo.notes}</p>` : ''}
                     ${todo.checklist && todo.checklist.length ? renderChecklistItems(todo.checklist) : ''}
                 </div>
-                <div class="todo-actions">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">&times;</button>
-                </div>
             </details>
-    </div>
+            
+            <div class="todo-actions">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">&times;</button>
+            </div>
+        </div>
         `;
         todoListElement.appendChild(todoItem);
     });
