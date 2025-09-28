@@ -84,6 +84,7 @@ body {
 
 #project-list li:hover .delete-project-btn {
     opacity: 1;
+    /* Make delete button visible on hover for easier discovery */
 }
 
 #project-list li.active .delete-project-btn {
